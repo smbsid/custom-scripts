@@ -8,8 +8,11 @@
 # PowerShell Module by Alex Williams @offsec_ginger
 # ====
 
+
+# THIS IS OUR ENCRYPTION KEY - THIS NEEDS TO BE THE SAME ON BOTH SERVER AND CLIENT FOR APPROPRIATE DECRYPTION. RECOMMEND CHANGING THIS FROM THE DEFAULT KEY
 $CIPHER = "Tr3v0rC2R0x@nd1s@w350m3#TrevorForget"
 
+# THIS IS OUR ENCRYPTION KEY - THIS NEEDS TO BE THE SAME ON BOTH SERVER AND CLIENT FOR APPROPRIATE DECRYPTION. RECOMMEND CHANGING THIS FROM THE DEFAULT KEY
 function Create-AesManagedObject($key, $IV) {
     $aesManaged = New-Object "System.Security.Cryptography.AesManaged"
     $aesManaged.Mode = [System.Security.Cryptography.CipherMode]::CBC
@@ -58,7 +61,7 @@ function Decrypt-String($key, $encryptedStringWithIV) {
     $unencryptedData = $decryptor.TransformFinalBlock($bytes, 16, $bytes.Length - 16);
     [System.Text.Encoding]::UTF8.GetString($unencryptedData).Trim([char]0)
 }
-##Put between the quotes the value of oldcss##
+# Put between the quotes the value of oldcss ##
 $ENCRYPTED = ''
 $key = Create-AesKey
 $DECRYPTED = Decrypt-String $key $ENCRYPTED

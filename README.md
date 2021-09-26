@@ -4,4 +4,4 @@ Customized public scripts
 * Or just need a fix
 
 # Disclaimer
-Use for education purposes only!
+Use for educational purposes only!

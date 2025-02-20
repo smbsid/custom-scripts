@@ -1,5 +1,5 @@
 #!/bin/bash
-#Script to delete Linux users provided in a list given in argumet
+#Script to delete Linux users provided in a list given in argument
 #Example: sudo bash delete-user.sh userslist.txt
 
 filename=$1

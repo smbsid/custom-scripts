@@ -1,0 +1,51 @@
+Bug bounty tips
+
+Recon has 2 main parts
+- Asset discovery : domain, subdomain, IP addresses, 
+- Content discovery : bruteforcing files or directories, scraping Javascript files or crawling using tools like Katana
+
+1 Asset discovery
+subdomain:
+edit subfinder config file : nano ~/.config/subfinder/config.yaml
+add API key in provider file : nano ~/.config/subfinder/provider-config.yaml
+
+suffledns : Allow to bruteforce different domains
+Download resolvers.txt : https://raw.githubusercontent.com/trickest/resolvers/refs/heads/main/resolvers.txt
+Using a wordlist from SecList or SecNotes, we can bruteforce and get result in output file domains.txt :
+shuffledns -d example.com -w wordlists.txt -r resolvers.txt -mode bruteforce -o domains.txt -silent
+
+* Subdomains permutation
+cat domains.txt | alterx | tee -a subdomains-dnsx.txt
+( alterx config can be modified : nano  ~/.config/alterx/permutation_v0.0.6.yaml )
+-enrich option is worth looking
+
+
+* Resolving DNS records
+#To find which domains resolve from previous list:
+cat subdomains-dnsx.txt | dnsx
+
+# We could use all in one-line :
+subfinder -all -d domain.com | alterx | dnsx
+or cat subdomains.txt | alterx | dnsx
+
+
+* Port scanning with Naabu (requires libpcap : sudo apt install -y libpcap-dev
+cat subdomains.txt | alterx | dnsx | naabu -top-ports 100 -ep 22 -o open-ports.txt
+
+* Information gathering
+cat subdomains.txt | alterx | dnsx | naabu -top-ports 100 -ep 22 -o open-ports.txt | httpx
+or
+cat open-ports.txt | httpx -tittle -sc -cl -location -fr -o httpx.txt
+
+* Web crawling with Katana
+katana -u sub.domain.com -jc
+katana -u sub.domain.com -jsl -d 5
+
+cat open-ports.txt | katana -jsl
+
+* Authenticated crawling
+katana -u sub.domain.com -jsl -H "Cookie : XXXSESSID=XXXX"
+
+**Possible worflows
+chaos-client -d paypal.com -silent | grep api | alterx -silent | dnsx -silent | naabu -p 443,8443 -silent
+urlfinder
